@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
@@ -33,6 +33,7 @@ namespace Cumulative_1.Models
                     + "; password = " + Password
                     + "; convert zero datetime = True";
             }
+        }
        
         /// <summary>
         /// Returns a connection to the school database.
