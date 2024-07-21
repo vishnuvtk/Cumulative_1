@@ -105,6 +105,7 @@ namespace Cumulative_1.Controllers
                 NewTeacher.TeacherLname = TeacherLname;
             }
 
+            Conn.Close();
 
             return NewTeacher;
         }
