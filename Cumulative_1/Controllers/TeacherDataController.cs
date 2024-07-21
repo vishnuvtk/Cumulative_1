@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -23,7 +23,8 @@ namespace Cumulative_1.Controllers
         /// A list of teachers (first names and last names)
         /// </returns>
         [HttpGet]
-        public IEnumerable<Teacher> ListTeachers()
+        [Route("api/TeacherData/ListTeachers/{SearchKey?}")]
+        public IEnumerable<Teacher> ListTeachers(string SearchKey=null)
         {
             //Create an instance of a connection
             MySqlConnection Conn = school.AccessDatabase();
@@ -35,7 +36,8 @@ namespace Cumulative_1.Controllers
             MySqlCommand cmd = Conn.CreateCommand();
 
             //SQL QUERY
-            cmd.CommandText = "Select * from teachers";
+            cmd.CommandText = "Select * from Teachers where lower(teacherfname) like lower(@key) or lower(teacherlname) like lower(@key) or lower(concat(teacherfname, ' ', teacherlname)) like lower(@key)";
+            cmd.Parameters.AddWithValue("@key", "%" + SearchKey + "%");
 
             //Gather Result Set of Query into a variable
             MySqlDataReader ResultSet = cmd.ExecuteReader();
@@ -47,14 +49,22 @@ namespace Cumulative_1.Controllers
             while (ResultSet.Read())
             {
                 //Access Column information by the DB column name as an index
-                int TeacherId = (int)ResultSet["teacherid"];
-                string TeacherFname = ResultSet["teacherfname"].ToString();
-                string TeacherLname = ResultSet["teacherlname"].ToString();
+                int teacherid = (int)ResultSet["teacherid"];
+                string teacherfname = ResultSet["teacherfname"].ToString();
+                string teacherlname = ResultSet["teacherlname"].ToString();
+                string employeenumber = ResultSet["employeenumber"].ToString();
+                string hiredate = ResultSet["hiredate"].ToString();
+                string salary = ResultSet["salary"].ToString();
 
                 Teacher NewTeacher = new Teacher();
-                NewTeacher.TeacherId = TeacherId;
-                NewTeacher.TeacherFname = TeacherFname;
-                NewTeacher.TeacherLname = TeacherLname;
+                NewTeacher.teacherid = teacherid;
+                NewTeacher.teacherfname = teacherfname;
+                NewTeacher.teacherlname = teacherlname;
+                NewTeacher.employeenumber = employeenumber;
+                NewTeacher.hiredate = hiredate;
+                NewTeacher.salary = salary;
+                
+
 
                 //Add the Teacher Name to the List
                 Teachers.Add(NewTeacher);
@@ -96,13 +106,20 @@ namespace Cumulative_1.Controllers
             while (ResultSet.Read())
             {
                 //Access Column information by the DB column name as an index
-                int TeacherId = (int)ResultSet["teacherid"];
-                string TeacherFname = ResultSet["teacherfname"].ToString();
-                string TeacherLname = ResultSet["teacherlname"].ToString();
+                int teacherid = (int)ResultSet["teacherid"];
+                string teacherfname = ResultSet["teacherfname"].ToString();
+                string teacherlname = ResultSet["teacherlname"].ToString();
+                string employeenumber = ResultSet["employeenumber"].ToString();
+                string hiredate = ResultSet["hiredate"].ToString();
+                string salary = ResultSet["salary"].ToString();
 
-                NewTeacher.TeacherId = TeacherId;
-                NewTeacher.TeacherFname = TeacherFname;
-                NewTeacher.TeacherLname = TeacherLname;
+                NewTeacher.teacherid = teacherid;
+                NewTeacher.teacherfname = teacherfname;
+                NewTeacher.teacherlname = teacherlname;
+                NewTeacher.employeenumber = employeenumber;
+                NewTeacher.hiredate = hiredate;
+                NewTeacher.salary = salary;
+
             }
 
             Conn.Close();
