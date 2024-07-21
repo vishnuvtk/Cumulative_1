@@ -1,4 +1,4 @@
-﻿﻿@model IEnumerable<Cumulative_1.Models.Teacher>
+﻿@model IEnumerable<Cumulative_1.Models.Teacher>
 @{
     ViewBag.Title = "List";
 }
@@ -8,10 +8,14 @@
 
 <div id="containerlist">
     <h2>List of Teachers</h2>
+    <form action="/Teacher/List" method="GET">
+        <input type="text" name="SearchKey" autocomplete="off"/>
+        <input type="submit" value="Search"/>
+    </form>
     @foreach (var teacher in Model)
     {
         <div class="listitem row">
-            <div class="col-md-12"><a href="/Teacher/Show/@teacher.TeacherId">@teacher.TeacherFname @teacher.TeacherLname</a></div>
+            <div class="col-md-12"><a href="/Teacher/Show/@teacher.teacherid">@teacher.teacherfname @teacher.teacherlname</a></div>
         </div>
     }
 </div>
