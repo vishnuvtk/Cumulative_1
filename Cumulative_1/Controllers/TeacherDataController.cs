@@ -1,11 +1,13 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using Cumulative_1.Models;
 using MySql.Data.MySqlClient;
+using System.Web.Http.Cors;
 
 namespace Cumulative_1.Controllers
 {
@@ -73,7 +75,7 @@ namespace Cumulative_1.Controllers
             //Close the connection between the MySQL Database and the WebServer
             Conn.Close();
 
-            //Return the final list of author names
+            //Return the final list of teachers names
             return Teachers;
         }
 
@@ -126,5 +128,82 @@ namespace Cumulative_1.Controllers
 
             return NewTeacher;
         }
+
+        /// <summary>
+        /// Deletes a Teacher from the connected MySQL Database if the ID of that teacher exists. Does NOT maintain relational integrity.
+        /// </summary>
+        /// <param name="id">The ID of the teacher.</param>
+        /// <example>POST /api/TeacherData/DeleteTeacher/3</example>
+        [HttpPost]
+        public void DeleteTeacher(int id)
+        {
+            //Create an instance of a connection
+            MySqlConnection Conn = school.AccessDatabase();
+
+            //Open the connection between the web server and database
+            Conn.Open();
+
+            //Establish a new command (query) for our database
+            MySqlCommand cmd = Conn.CreateCommand();
+
+            //SQL QUERY
+            cmd.CommandText = "Delete from teachers where teacherid=@id";
+            cmd.Parameters.AddWithValue("@id", id);
+            cmd.Prepare();
+
+            cmd.ExecuteNonQuery();
+
+            Conn.Close();
+
+
+        }
+
+        /// <summary>
+        /// Adds an teacher to the MySQL Database.
+        /// </summary>
+        /// <param name="NewTeacher">An object with fields that map to the columns of the teacher's table.</param>
+        /// <example>
+        /// POST api/TeacherData/AddTeacher 
+        /// FORM DATA / POST DATA / REQUEST BODY 
+        /// {
+        ///	"teacherfname":"Vishnu",
+        ///	"teacherlname":"Varma",
+        ///	"employeenumber":"T606",
+        ///	"hiredate":"2016-08-05"
+        /// }
+        /// </example>
+        [HttpPost]
+        [EnableCors(origins: "*", methods: "*", headers: "*")]
+        public void AddTeacher([FromBody] Teacher NewTeacher)
+        {
+            //Create an instance of a connection
+            MySqlConnection Conn = school.AccessDatabase();
+
+            Debug.WriteLine(NewTeacher.teacherfname);
+
+            //Open the connection between the web server and database
+            Conn.Open();
+
+            //Establish a new command (query) for our database
+            MySqlCommand cmd = Conn.CreateCommand();
+
+            //SQL QUERY
+            cmd.CommandText = "insert into teachers (teacherfname, teacherlname, employeenumber, hiredate, salary) values (@teacherfname,@teacherlname,@employeenumber,@hiredate,@salary)";
+            cmd.Parameters.AddWithValue("@teacherfname", NewTeacher.teacherfname);
+            cmd.Parameters.AddWithValue("@teacherlname", NewTeacher.teacherlname);
+            cmd.Parameters.AddWithValue("@employeenumber", NewTeacher.employeenumber);
+            cmd.Parameters.AddWithValue("@hiredate", NewTeacher.hiredate);
+            cmd.Parameters.AddWithValue("@salary", NewTeacher.salary);
+            cmd.Prepare();
+
+            cmd.ExecuteNonQuery();
+
+            Conn.Close();
+
+
+
+        }
+
+
     }
 }
