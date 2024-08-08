@@ -4,6 +4,17 @@
 }
 
 <a class="navlink" href="/Teacher/List">Back To Teachers</a>
+<a class="dellink" href="/Teacher/DeleteConfirm/@Model.teacherid">Delete</a>
 <div id="containershow">
-    <h2>@Model.teacherid @Model.teacherfname @Model.teacherlname @Model.employeenumber @Model.hiredate @Model.salary</h2>
+    <h2>Teacher Details</h2>
+    <div>
+        <p><strong>ID:</strong> @Model.teacherid</p>
+        <p><strong>First Name:</strong> @Model.teacherfname</p>
+        <p><strong>Last Name:</strong> @Model.teacherlname</p>
+        <p><strong>Employee Number:</strong> @Model.employeenumber</p>
+        <p><strong>Hire Date:</strong> @Model.hiredate</p>
+        <p><strong>Salary:</strong> $@Model.salary</p>
+    </div>
 </div>
+
+
