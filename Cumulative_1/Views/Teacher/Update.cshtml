@@ -1,0 +1,49 @@
+@model Cumulative_1.Models.Teacher
+@{
+    ViewBag.Title = "Update";
+}
+
+<div id="containershow">
+    <nav>
+        <a class="navlink" href="/Teacher/Show/@Model.teacherid">Back</a>
+    </nav>
+    <h2>Update Teacher</h2>
+    <form method="POST" action="/Teacher/Update/@Model.teacherid" onsubmit="return ValidateTeacher();">
+
+        <div class="inputrow">
+            <label for="teacherid"><strong>Teacher ID:</strong></label>
+            <input type="text" id="teacherid" name="teacherid" value="@Model.teacherid" required/>
+        </div>
+        <br />
+        <div class="inputrow">
+            <label for="teacherfname"><strong>First Name:</strong></label>
+            <input type="text" id="teacherfname" name="teacherfname" value="@Model.teacherfname" required/>
+        </div>
+        <br />
+        <div class="inputrow">
+            <label for="teacherlname"><strong>Last Name:</strong></label>
+            <input type="text" id="teacherlname" name="teacherlname" value="@Model.teacherlname" required/>
+        </div>
+        <br />
+        <div class="inputrow">
+            <label for="employeenumber"><strong>Employee Number:</strong></label>
+            <input type="text" id="employeenumber" name="employeenumber" value="@Model.employeenumber" required/>
+        </div>
+        <br />
+
+        <div class="inputrow">
+            <label for="hiredate"><strong>Add Hire Date:</strong></label>
+            <input type="date" id="hiredate" name="hiredate" value="@Model.hiredate" required/>
+        </div>
+        <br />
+        <div class="inputrow">
+            <label for="salary"><strong>Salary:</strong></label>
+            <input type="text" id="salary" name="salary" value="@Model.salary" required/>
+        </div>
+        <br />
+        <div class="inputrow">
+            <input type="submit" value="Update Teacher" />
+        </div>
+        <div id="ErrorBox" style="display:none;"></div>
+    </form>
+</div>
