@@ -1,24 +1,19 @@
-﻿@model IEnumerable<Cumulative_1.Models.Teacher>
+@model Cumulative_1.Models.Teacher
+
 @{
-    ViewBag.Title = "List";
+    ViewBag.Title = "DeleteConfirm";
 }
 
-<h2>List</h2>
-<p>This page should be showing information about all teachers</p>
 
-<div id="containerlist">2016-08-05
+<div id="containershow">
     <nav>
-        <a class="navlink" href="/Teacher/New">New Teacher</a>
+        <a class="navlink" href="/Teacher/Show/@Model.teacherid">Cancel</a>
     </nav>
-    <h2>List of Teachers</h2>
-    <form action="/Teacher/List" method="GET">
-        <input type="text" name="SearchKey" autocomplete="off" />
-        <input type="submit" value="Search" />
+    <h2>Are you sure you want to delete @Model.teacherfname @Model.teacherlname?</h2>
+    <p>This action cannot be undone.</p>
+    <form method="POST" action="/Teacher/Delete/@Model.teacherid">
+        <button class="delbutton">
+            Confirm Delete
+        </button>
     </form>
-    @foreach (var teacher in Model)
-    {
-        <div class="listitem row">
-            <div class="col-md-12"><a href="/Teacher/Show/@teacher.teacherid">@teacher.teacherfname @teacher.teacherlname</a></div>
-        </div>
-    }
 </div>
